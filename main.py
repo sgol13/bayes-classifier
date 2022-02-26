@@ -1,6 +1,9 @@
 from sklearn.model_selection import train_test_split
 import numpy
 
+DATA_FILENAME = "dataset/wine.csv"
+TRAINING_SET_SIZE = 40
+
 
 class BayesClassifier:
 
@@ -120,18 +123,17 @@ def test_classificator(classifier, X, Y):
     return correct
 
 
-data = numpy.genfromtxt("dataset/wine.csv", delimiter=',')
+data = numpy.genfromtxt(DATA_FILENAME, delimiter=',')
 data_Y, data_X = numpy.hsplit(data, [1])
 
 train_Y, test_Y, train_X, test_X = train_test_split(
-    data_Y, data_X, test_size=0.5)
+    data_Y, data_X, test_size=TRAINING_SET_SIZE)
 
 nbc = BayesClassifier(intervals_num=10, useLaPlace=True)
 nbc.fit(train_Y, train_X)
 
 correct = test_classificator(nbc, test_X, test_Y)
 
-print("====================")
 print("tests number:", len(test_X))
 print("correct:", correct, end='')
 print(" (%.2f" % (100 * correct / len(test_X)), end='')
